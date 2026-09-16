@@ -1,10 +1,9 @@
 import cv2
 import matplotlib.pyplot as plt
-import os
 
-# This script is set up in a way that starts with looping through all the verticle values of the image,
+#  This script is set up in a way that starts with looping through all the verticle values of the image,
 #  then each iteration of this loop calls a function which then loops through all of the Horizontal Values 
-# of the images and checks to see if the color is light enough to be considered a droplet on the RBG color scale,
+#  of the images and checks to see if the color is light enough to be considered a droplet on the RBG color scale,
 #  the culmination of these two funcitons is a list which contains the first detected x values light enough
 #  to be considered a droplet and the last value light enough to be considered a droplet, this information is
 #  then poassed into a function what finds the distance between then and converts in to mm, this is then used
@@ -25,6 +24,7 @@ y_max = 5300
 #The images that are used
 img = cv2.imread("C:/Users/Owner/OneDrive/Documents/coding/fall_2026/FMECL image processing/photos/test1.jpg")
 #img = cv2.imread("C:/Users/Owner/OneDrive/Documents/coding/fall_2026/FMECL image processing/photos/test3.jpg")
+#img = cv2.imread("C:/Users/Owner/OneDrive/Documents/coding/fall_2026/FMECL image processing/photos/test2.jpg")
 
 
 
@@ -79,7 +79,7 @@ def find_x_values():
     """to find the x values of the graph used (0.0530 mm = 1 pixel)"""
     counted_values = []
     for i in range(len(distance_list)):
-        i = (i + 1500) * 0.053
+        i = (i + x_min) * 0.053
         counted_values.append(i)
     return counted_values
 
@@ -93,10 +93,9 @@ def plotting(img, distance_list):
 
     # The left plot showing the width of stream
     ax1.plot(counted_values, distance_list)
-    ax1.grid(True)
 
     # The right plot showing the image being measured
-    count = 1500
+    count = x_min + 100
     for i in range(len(droplet_width_list)):
         count += 1
         img1 = cv2.line(img, (droplet_width_list[i][0], count), (droplet_width_list[i][1], count), (255, 0, 0), 1)
